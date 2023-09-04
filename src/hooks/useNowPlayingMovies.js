@@ -3,7 +3,7 @@ import { API_OPTIONS } from "../utils/constant";
 import { addNowPlayingMovies } from "../utils/moviesSlice";
 import { useEffect } from "react";
 
-export const useNowPlayingMovies = () => {
+const useNowPlayingMovies = () => {
   const dispatch = useDispatch();
 
   const getNowPlayingMovies = async () => {
@@ -20,3 +20,5 @@ export const useNowPlayingMovies = () => {
     getNowPlayingMovies();
   }, []);
 };
+
+export default useNowPlayingMovies;
