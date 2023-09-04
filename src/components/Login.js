@@ -7,12 +7,12 @@ import {
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { BACKGROUND_IMAGE } from "../utils/constant";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -50,8 +50,6 @@ const Login = () => {
             // Profile updated!
             const { uid, email, displayName } = auth.currentUser;
             dispatch(addUser({ uid, email, displayName }));
-
-            navigate("/browse");
           });
         })
         .catch((error) => {
@@ -71,7 +69,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           //   const user = userCredential.user;
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -85,11 +82,7 @@ const Login = () => {
     <div>
       <Header />
       <div className="absolute w-[100vw] h-[100vh]">
-        <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/00103100-5b45-4d4f-af32-342649f1bda5/64774cd8-5c3a-4823-a0bb-1610d6971bd4/IN-en-20230821-popsignuptwoweeks-perspective_alpha_website_large.jpg"
-          alt="background"
-          className="w-[100%]"
-        />
+        <img src={BACKGROUND_IMAGE} alt="background" className="w-[100%]" />
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
