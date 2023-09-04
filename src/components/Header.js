@@ -5,10 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, USER_ICON } from "../utils/constant";
+import { toggleGptSearch } from "../utils/gptSlice";
 
 const Header = () => {
-  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((store) => store.user);
+  const isShowGptSearchEnabled = useSelector(
+    (store) => store?.gptSlice?.showGptSearch
+  );
 
   const handleSignout = () => {
     signOut(auth)
@@ -19,7 +24,10 @@ const Header = () => {
       });
   };
 
-  const dispatch = useDispatch();
+  const handleGptSearch = () => {
+    dispatch(toggleGptSearch());
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -44,6 +52,12 @@ const Header = () => {
       <img className="w-44" src={LOGO} alt="logo" />
       {user ? (
         <div className="p-4 flex cursor-pointer">
+          <button
+            className="py-2 px-4 m-2 bg-purple-800 text-white rounded mx-4"
+            onClick={handleGptSearch}
+          >
+            {isShowGptSearchEnabled ? "HomePage" : "GPT Search"}
+          </button>
           <img className="w-12 h-12  " src={USER_ICON} alt="usericon" />
           <button className="text-white font-bold" onClick={handleSignout}>
             (Sign Out)
